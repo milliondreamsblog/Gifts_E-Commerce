@@ -132,49 +132,34 @@ export default function Slider({
   );
 }
 
-function SlideCard({ image, title, subtitle, cta, gradient = false, showButton }) {
+function SlideCard({ image, title, subtitle, cta, showButton }) {
   return (
     <div className="mx-2 rounded-xl overflow-hidden h-56 md:h-64 shadow-lg relative">
-      {gradient ? (
-        <div className="h-full w-full p-6 bg-gradient-to-r from-amber-400 to-orange-300 flex items-center">
-          <div className="flex-1">
-            <h3 className="text-2xl font-semibold mb-2">{title}</h3>
-            <p className="mb-4 text-sm">{subtitle}</p>
-            {showButton && cta && (
-              <button className="bg-[#A21114] text-white px-4 py-2 rounded-md">
-                {cta}
-              </button>
-            )}
-          </div>
-          {image && (
-            <div className="hidden md:block w-1/3">
-              <img src={image} alt="" className="object-contain h-40 w-full" />
-            </div>
-          )}
-        </div>
-      ) : (
-            <div
-                className="h-full w-full relative flex items-center justify-center text-center"
-                style={{
-                backgroundImage: `url(${image})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                }}
-            >
-                <div className="absolute inset-0 bg-black/40" /> {/* dark overlay for contrast */}
+      {/* This <img> tag is positioned to fill the entire card.
+        The key is `object-cover`, which scales the image to fill the space,
+        cropping it if necessary, just like `background-size: cover`.
+      */}
+      <img
+        src={image}
+        alt={title || "Slide Image"} // Alt text for accessibility
+        className="absolute inset-0 w-full h-full object-cover"
+      />
 
-                <div className="relative z-10 p-4">
-                {title && <h3 className="text-2xl font-semibold text-white mb-2">{title}</h3>}
-                {subtitle && <p className="text-sm text-white mb-4">{subtitle}</p>}
-                {showButton && cta && (
-                    <button className="bg-[#A21114] text-white px-4 py-2 rounded-md">
-                    {cta}
-                    </button>
-                )}
-                </div>
-            </div>
-            )
-        }
+      {/* Dark overlay for text readability */}
+      <div className="absolute inset-0 bg-black/40" />
+
+      {/* Content, positioned above the image and overlay */}
+      <div className="relative h-full w-full z-10 flex flex-col items-center justify-center text-center p-4">
+        {title && (
+          <h3 className="text-2xl font-semibold text-white mb-2">{title}</h3>
+        )}
+        {subtitle && <p className="text-sm text-white mb-4">{subtitle}</p>}
+        {showButton && cta && (
+          <button className="bg-[#A21114] text-white px-4 py-2 rounded-md">
+            {cta}
+          </button>
+        )}
+      </div>
     </div>
   );
 }
